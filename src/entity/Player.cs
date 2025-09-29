@@ -6,12 +6,14 @@ namespace SnakeGame.entity;
 public class Player(Vector2 snakePosition, Vector2 snakeSize, float speed, int tailLenght)
 {
     
-    private Collider _snakeHead = new Collider(snakePosition, snakeSize);
+    private readonly Collider _snakeHead = new Collider(snakePosition, snakeSize);
     private int _tailLenght = tailLenght;
     
     private List<Collider> _snakeTail = new List<Collider>();
     private Vector2 _direction = Vector2.Zero;
 
+    public Collider GetCollider() => this._snakeHead;
+    
     public void AddSnakeTail(int value)
     {
         this._tailLenght += value;

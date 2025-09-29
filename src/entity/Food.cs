@@ -6,18 +6,18 @@ namespace SnakeGame.entity;
 public class Food(Vector2 position, Vector2 size)
 {
     
-    private Collider Collider = new Collider(position, size);
+    private readonly Collider _collider = new Collider(position, size);
     
-    public Collider GetCollider() => Collider;
+    public Collider GetCollider() => this._collider;
 
     public void SetPosition(Vector2 position)
     {
-        this.Collider.SetPosition(position);
+        this._collider.SetPosition(position);
     }
     
     public void Draw()
     {
-        Raylib.DrawRectangleV(Collider.GetPosition(), Collider.GetSize(), Color.Red);
+        Raylib.DrawRectangleV(this._collider.GetPosition(), this._collider.GetSize(), Color.Red);
     }
     
 }

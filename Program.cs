@@ -21,6 +21,8 @@ namespace SnakeGame
 
             int score = 0;
             
+            Collider groundCollider = new Collider(Vector2.Zero, new Vector2(_windowWidth, _windowHeight));
+            
             Player player = new Player(new Vector2(0, 0), new Vector2(50, 50), 100, 0);
             Food food = new Food(new Vector2(rand.Next(0, _windowWidth), rand.Next(0, _windowHeight)),
                 new Vector2(30, 30));
@@ -39,7 +41,7 @@ namespace SnakeGame
                     food.SetPosition(new Vector2(rand.Next(0, _windowWidth), rand.Next(0, _windowHeight)));
                 }
 
-                if (player.TouchTail())
+                if (player.TouchTail() || !groundCollider.CheckCollide(player.GetCollider()))
                 {
                     Raylib.CloseWindow();
                 }
