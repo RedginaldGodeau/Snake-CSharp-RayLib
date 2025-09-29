@@ -8,23 +8,23 @@ namespace SnakeGame
 {
     class Program
     {
-        static int _windowWidth = 1024;
-        static int _windowHeight = 768;
+        static readonly int WindowWidth = 1024;
+        static readonly int WindowHeight = 768;
         
         
         static void Main()
         {
             Random rand = new Random();
             
-            Raylib.InitWindow(_windowWidth, _windowHeight, "Snake Game");
+            Raylib.InitWindow(WindowWidth, WindowHeight, "Snake Game");
             Raylib.SetTargetFPS(60);
 
             int score = 0;
             
-            Collider groundCollider = new Collider(Vector2.Zero, new Vector2(_windowWidth, _windowHeight));
+            Collider groundCollider = new Collider(Vector2.Zero, new Vector2(WindowWidth, WindowHeight));
             
             Player player = new Player(new Vector2(0, 0), new Vector2(50, 50), 100, 0);
-            Food food = new Food(new Vector2(rand.Next(0, _windowWidth), rand.Next(0, _windowHeight)),
+            Food food = new Food(new Vector2(rand.Next(0, WindowWidth), rand.Next(0, WindowHeight)),
                 new Vector2(30, 30));
 
             while (!Raylib.WindowShouldClose())
@@ -38,7 +38,7 @@ namespace SnakeGame
                 {
                     score++;
                     player.AddSnakeTail(1);
-                    food.SetPosition(new Vector2(rand.Next(0, _windowWidth), rand.Next(0, _windowHeight)));
+                    food.SetPosition(new Vector2(rand.Next(0, WindowWidth), rand.Next(0, WindowHeight)));
                 }
 
                 if (player.TouchTail() || !groundCollider.CheckCollide(player.GetCollider()))
