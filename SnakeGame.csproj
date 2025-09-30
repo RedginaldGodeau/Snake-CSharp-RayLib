@@ -13,4 +13,9 @@
     <PackageReference Include="rlImGui-cs" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="assets\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

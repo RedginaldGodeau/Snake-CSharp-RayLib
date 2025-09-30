@@ -16,13 +16,16 @@ public class GameScene(int width, int height, Action gameOver)
         new Vector2(30, 30));
 
     public int GetScore() => this._score;
-
+    
     public void Restart()
     {
         this._score = 0;
         this._player = new Player(new Vector2(0, 0), new Vector2(50, 50), 200, 0);
         this._food = new Food(new Vector2(Rand.Next(0, width), Rand.Next(0, height)),
             new Vector2(30, 30));
+        
+        _player.Load();
+        _food.Load();
     }
 
     public void Update(float deltaTime)
@@ -44,8 +47,8 @@ public class GameScene(int width, int height, Action gameOver)
 
     public void Draw()
     {
-        Raylib.ClearBackground(Color.White);
-
+        Raylib.ClearBackground(new Color(110f / 255f, 118f / 255f, 238f / 255f));
+        
         _player.Draw(); 
         _food.Draw();
         

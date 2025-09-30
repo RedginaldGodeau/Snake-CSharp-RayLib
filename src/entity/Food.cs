@@ -9,15 +9,23 @@ public class Food(Vector2 position, Vector2 size)
     private readonly Collider _collider = new Collider(position, size);
     
     public Collider GetCollider() => this._collider;
+    
+    private readonly Sprite _foodSprite = new Sprite("assets/images/apple.png");
+
+    
+    public void Load()
+    {
+        _foodSprite.Load();
+    }
 
     public void SetPosition(Vector2 position)
     {
-        this._collider.SetPosition(position);
+        _collider.SetPosition(position);
     }
     
     public void Draw()
     {
-        Raylib.DrawRectangleV(this._collider.GetPosition(), this._collider.GetSize(), Color.Red);
+        _foodSprite.Draw(_collider.GetCollider(), 0, Vector2.Zero, false);
     }
     
 }

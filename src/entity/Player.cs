@@ -11,8 +11,18 @@ public class Player(Vector2 snakePosition, Vector2 snakeSize, float speed, int t
     
     private List<Collider> _snakeTail = new List<Collider>();
     private Vector2 _direction = Vector2.Zero;
+    private float _rotation = 0;
 
     public Collider GetCollider() => this._snakeHead;
+    
+    private readonly Sprite _snakeHeadSprite = new Sprite("assets/images/snake-head.png");
+    private readonly Sprite _snakeTailSprite = new Sprite("assets/images/snake-body.png");
+    
+    public void Load()
+    {
+        _snakeHeadSprite.Load();
+        _snakeTailSprite.Load();
+    }
     
     public void AddSnakeTail(int value)
     {
@@ -42,21 +52,25 @@ public class Player(Vector2 snakePosition, Vector2 snakeSize, float speed, int t
         if (Raylib.IsKeyDown(KeyboardKey.A) && this._direction != new Vector2(1, 0))
         {
             this._direction = new Vector2(-1, 0);
+            _rotation = 90;
         }
         
         if (Raylib.IsKeyDown(KeyboardKey.D) && this._direction != new Vector2(-1, 0))
         {
             this._direction = new Vector2(1, 0);
+            _rotation = -90;
         }
         
         if (Raylib.IsKeyDown(KeyboardKey.W) && this._direction != new Vector2(0, 1))
         {
             this._direction = new Vector2(0, -1);
+            _rotation = 180;
         }
         
         if (Raylib.IsKeyDown(KeyboardKey.S) && this._direction != new Vector2(0, -1))
         {
             this._direction = new Vector2(0, 1);
+            _rotation = -180;
         }
         
         this._snakeHead.AddPosition(this._direction * deltaTime * speed);
@@ -72,8 +86,8 @@ public class Player(Vector2 snakePosition, Vector2 snakeSize, float speed, int t
     {
         foreach (var tail in _snakeTail)
         {
-            Raylib.DrawRectangleV(tail.GetPosition(), tail.GetSize(), Color.Blue);
+            _snakeTailSprite.Draw(tail.GetCollider(), 0, Vector2.Zero, false);
         }
-        Raylib.DrawRectangleV(_snakeHead.GetPosition(), _snakeHead.GetSize(), Color.DarkBlue);
+        _snakeHeadSprite.Draw(_snakeHead.GetCollider(), 0, Vector2.Zero, false);
     }
 }
