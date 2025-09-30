@@ -1,12 +1,17 @@
-﻿
-
-using System.Numerics;
-using Raylib_cs;
-using SnakeGame.entity;
+﻿using Raylib_cs;
+using rlImGui_cs;
 using SnakeGame.scene;
 
 namespace SnakeGame
 {
+    
+    enum GameState
+    {
+        MainMenu,
+        Playing,
+        GameOver,
+    }
+    
     class Program
     {
         static readonly int WindowWidth = 1024;
@@ -16,23 +21,58 @@ namespace SnakeGame
         {
             Raylib.InitWindow(WindowWidth, WindowHeight, "Snake Game");
             Raylib.SetTargetFPS(60);
+            rlImGui.Setup(false);
             
-            GameScene gameScene = new GameScene(WindowWidth, WindowHeight);
-            
+            GameState currentState = GameState.MainMenu;
+
+            GameScene gameScene = new GameScene(WindowWidth, WindowHeight, () => { currentState = GameState.GameOver; });
+            GameOverScene gameOverScene = new GameOverScene(WindowWidth, WindowHeight, () =>
+                {
+                    currentState = GameState.Playing;
+                    gameScene.Restart();
+                },
+                () =>
+                {
+                    currentState = GameState.MainMenu;
+                });
+            MenuScene menuScene = new MenuScene(WindowWidth, WindowHeight, () =>
+            {
+                currentState = GameState.Playing;
+                gameScene.Restart();
+            });
 
             while (!Raylib.WindowShouldClose())
             {
                 // UPDATE
                 float deltaTIme = Raylib.GetFrameTime();
                 
-                gameScene.Update(deltaTIme);
+                switch (currentState)
+                {
+                    case GameState.Playing:
+                        gameScene.Update(deltaTIme);
+                        break;
+                }
+                
                 
                 // DRAW
                 Raylib.BeginDrawing();
-                gameScene.Draw();
+                switch (currentState)
+                {
+                    case GameState.MainMenu:
+                        menuScene.Draw();
+                        break;
+                    case GameState.Playing:
+                        gameScene.Draw();
+                        break;
+                    case GameState.GameOver:
+                        gameOverScene.Draw(gameScene.GetScore());
+                        break;
+                }
                 Raylib.EndDrawing();
             }
+            
+            rlImGui.Shutdown();
+            Raylib.CloseWindow();
         }
     }
 }
-

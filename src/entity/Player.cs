@@ -28,7 +28,7 @@ public class Player(Vector2 snakePosition, Vector2 snakeSize, float speed, int t
     {
         if (this._direction == Vector2.Zero) return false;
         
-        for (int i = 0; i < _snakeTail.Count - snakeSize.X; i++)
+        for (int i = 0; i < _snakeTail.Count - _snakeHead.GetSize().X / 2; i++)
         {
             Console.WriteLine(i);
             return this._snakeHead.CheckCollide(_snakeTail[i]);
